@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.BoxLayout;
+import javax.swing.*;
+
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -11,6 +13,8 @@ public class Calculator {
     private Panel buttonPanel;
     private static TextField inputText;
     private Label infoLn1, infoLn2, avgLabel;
+    private JButton calculateButton = new JButton("Calculate");
+    private JButton clearButton = new JButton("Clear");
     private static double avg;
     private List<Double> inputs = new ArrayList<Double>();
 
@@ -24,7 +28,7 @@ public class Calculator {
     }
 
     public void ShowGUI(){
-        mainFrame = new Frame("Average Calculator");
+        mainFrame = new JFrame("Average Calculator");
         mainFrame.setSize(650, 200);
         mainFrame.setLayout(new FlowLayout());
         mainFrame.addWindowListener(new WindowAdapter() {
@@ -32,12 +36,13 @@ public class Calculator {
                 System.exit(0);
            }
         });
+        
         //Instantiate Labels, Panels, and TextFeilds
         infoLn1 = new Label();
         infoLn2 = new Label();
         avgLabel = new Label();
         infoLn1.setText("Enter a number and press Calulate to calculate the average with the previous numbers inputted");
-        infoLn2.setText("Pro tip: press tab for quick entering.");
+        infoLn2.setText("Pro tip: Press enter for quick number entry.");
 
         inputPanel = new Panel();
         buttonPanel = new Panel();
@@ -57,12 +62,16 @@ public class Calculator {
     }
 
     private void ShowButtons() {
-        Button calculateButton = new Button("Calculate");
-
         calculateButton.setActionCommand("calculate");
         calculateButton.addActionListener(new ButtonClickListener());
-
+        clearButton.setActionCommand("clear");
+        clearButton.addActionListener(new ButtonClickListener());
+        
         buttonPanel.add(calculateButton);
+        buttonPanel.add(clearButton);
+
+        JRootPane rootPane = SwingUtilities.getRootPane(calculateButton);
+        rootPane.setDefaultButton(calculateButton);
         mainFrame.setVisible(true);
     }
 
@@ -83,8 +92,9 @@ public class Calculator {
 	            avgLabel.setText(Double.toString(avg));
 	            inputText.setText("");
             }
-            else if (command.equals("exit")) {
-                System.exit(0);
+            else if (command.equals("clear")){
+            	inputs.clear();
+            	avgLabel.setText("");
             }
             else {
                 System.out.println("Action was performed that wasn't planned for!");
