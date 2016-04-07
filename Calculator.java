@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.BoxLayout;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Calculator {
 
@@ -8,9 +10,9 @@ public class Calculator {
     private Panel inputPanel;
     private Panel buttonPanel;
     private static TextField inputText;
-    private Label info;
-    private Label avgLabel;
+    private Label infoLn1, infoLn2, avgLabel;
     private static double avg;
+    private List<Double> inputs = new ArrayList<Double>();
 
     public Calculator() {
         ShowGUI();
@@ -23,7 +25,7 @@ public class Calculator {
 
     public void ShowGUI(){
         mainFrame = new Frame("Average Calculator");
-        mainFrame.setSize(500, 200);
+        mainFrame.setSize(650, 200);
         mainFrame.setLayout(new FlowLayout());
         mainFrame.addWindowListener(new WindowAdapter() {
            public void windowClosing(WindowEvent windowEvent) {
@@ -31,8 +33,11 @@ public class Calculator {
            }
         });
         //Instantiate Labels, Panels, and TextFeilds
-        info = new Label();
+        infoLn1 = new Label();
+        infoLn2 = new Label();
         avgLabel = new Label();
+        infoLn1.setText("Enter a number and press Calulate to calculate the average with the previous numbers inputted");
+        infoLn2.setText("Pro tip: press tab for quick entering.");
 
         inputPanel = new Panel();
         buttonPanel = new Panel();
@@ -45,6 +50,8 @@ public class Calculator {
         inputText = new TextField("", 6);
 
         //Add elements to Panel
+        inputPanel.add(infoLn1);
+        inputPanel.add(infoLn2);
         inputPanel.add(inputText);
         inputPanel.add(avgLabel);
     }
@@ -63,7 +70,18 @@ public class Calculator {
         public void actionPerformed(ActionEvent e){
             String command = e.getActionCommand();
             if (command.equals("calculate")){
-                avgLabel.setText("Pressed!");
+            	if (!inputText.getText().equals("")){
+            		inputs.add(Double.parseDouble(inputText.getText()));
+            	}
+            	avg = 0;
+            	if (inputs.size() != 0) {		
+	            	for (int i = 0; i < inputs.size(); i++) {
+	            		avg += inputs.get(i);
+	            	}
+            		avg = avg/inputs.size();
+            	}
+	            avgLabel.setText(Double.toString(avg));
+	            inputText.setText("");
             }
             else if (command.equals("exit")) {
                 System.exit(0);
