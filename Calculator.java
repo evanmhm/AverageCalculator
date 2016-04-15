@@ -36,7 +36,7 @@ public class Calculator {
                 System.exit(0);
            }
         });
-        
+
         //Instantiate Labels, Panels, and TextFeilds
         infoLn1 = new Label();
         infoLn2 = new Label();
@@ -66,7 +66,7 @@ public class Calculator {
         calculateButton.addActionListener(new ButtonClickListener());
         clearButton.setActionCommand("clear");
         clearButton.addActionListener(new ButtonClickListener());
-        
+
         buttonPanel.add(calculateButton);
         buttonPanel.add(clearButton);
 
@@ -79,11 +79,11 @@ public class Calculator {
         public void actionPerformed(ActionEvent e){
             String command = e.getActionCommand();
             if (command.equals("calculate")){
-            	if (!inputText.getText().equals("")){
+            	if (!inputText.getText().equals("") && inputText.getText().matches("^-?[0-9]{1,12}(?:\\.[0-9]{1,4})?$") ){
             		inputs.add(Double.parseDouble(inputText.getText()));
             	}
             	avg = 0;
-            	if (inputs.size() != 0) {		
+            	if (inputs.size() != 0) {
 	            	for (int i = 0; i < inputs.size(); i++) {
 	            		avg += inputs.get(i);
 	            	}
